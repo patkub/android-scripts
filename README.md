@@ -6,7 +6,7 @@ Generate hosts file:
 ```bash
 python hosts_concat.py
 ```
-Mount system partition in recovery.
+Mount system partition in recovery and run:
 ```bash
 flash_hosts
 ```
