@@ -1,4 +1,4 @@
 #!/bin/sh
 echo Flashing AdBlock...
-adb pull /system/hosts old_hosts
-adb push /system/ hosts
+adb pull /system/etc/hosts old_hosts
+adb push hosts /system/etc
