@@ -1,3 +1,10 @@
+"""
+Hosts Concat
+Concatenate multiple host files.
+
+author: Patrick Kubiak
+"""
+
 from sys import stdout
 import datetime
 import argparse
@@ -11,8 +18,8 @@ def main():
     sources = []
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('source', type=str, help='sources to read hosts from')
-    parser.add_argument('-o', '--output', type=str, nargs='*', default="hosts", help='file to write hosts output to')
+    parser.add_argument('source', type=str, help='file containing list of sources to parse')
+    parser.add_argument('-o', '--output', type=str, nargs='?', default="hosts", help='write output hosts to file')
     args = parser.parse_args()
 
     # read sources
@@ -28,40 +35,44 @@ def main():
     stdout.write("Sorting hosts...\n")
     hosts = sorted(hosts, key=get_hosts_key)
 
+    # set output string
     if isinstance(args.output, list):
         args.output = args.output[0]
 
     # write hosts
     stdout.write("Writing hosts to: " + args.output + "\n")
-
     with open(args.output, 'w') as f:
+        # header info
         curr_date = datetime.datetime.now().strftime("%B %d, %Y at %I:%M %p")
         f.write("# HostsConcat blocked " + format(len(hosts), ',d') + " hosts.\n" +
                 "# Generated on " + curr_date + " using the following sources: \n")
+
+        # sources info
         for source in sources:
             f.write("# " + source)
         f.write("\n\n")
 
+        # write hosts
         for line in hosts:
             f.write(line + '\n')
 
+    # report output
     report_hosts = " host" if len(hosts) == 1 else " hosts"
     report_sources = " source!" if len(sources) == 1 else " sources!"
-
     print("Blocked " + format(len(hosts), ',d') + report_hosts + " from "
           + str(len(sources)) + report_sources)
 
 
-def get_hosts_key(s):
+def get_hosts_key(host):
     """
     Get key to sort hosts
-    :param s: host
+    :param host: host
     :return: host name
     """
-    new_s = s.split()
-    if len(new_s) >= 2:
-        return new_s[1]
-    return s
+    host_key = host.split()
+    if len(host_key) >= 2:
+        return host_key[1]
+    return host
 
 
 def get_hosts(source, hosts):
