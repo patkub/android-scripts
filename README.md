@@ -12,12 +12,12 @@ flash_hosts
 
 Examples
 ========
-Parse list of sources from sources.txt and write to hosts file
+Parse list of sources from sources.txt and write to "hosts" file
 ```
 python hosts_concat.py sources.txt
 ```
 
-Parse list of sources from sources.txt and write to myhosts.txt file
+Parse list of sources from sources.txt and write to "myhosts.txt" file
 ```
 python hosts_concat.py source.txt -o myhosts.txt
 ```
