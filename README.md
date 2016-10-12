@@ -2,11 +2,11 @@ AdBlock
 =======
 Concatenates hosts from list of sources.  
 Generate hosts file:
-```bash
+```
 usage: hosts_concat.py [-h] [-o [OUTPUT]] source
 ```
 Mount system partition in recovery and run:
-```bash
+```
 flash_hosts
 ```
 
