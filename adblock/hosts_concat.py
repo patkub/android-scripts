@@ -104,7 +104,7 @@ def parse_source(url) -> str:
             stdout.write("\tAttempting without header")
             return urlopen(url).read().decode('utf-8')
         except urllib.error.HTTPError:
-            stdout.write("HTTP Failed!\n")
+            stdout.write(" ...HTTP Failed!\n")
     finally:
         stdout.write(" ...OK!\n")
 
