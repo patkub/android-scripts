@@ -1,6 +1,6 @@
 AdBlock
 =======
-Concatenates hosts from list of sources. 
+Concatenates hosts from list of sources.  
 Generate hosts file:
 ```bash
 usage: hosts_concat.py [-h] [-o [OUTPUT]] source
