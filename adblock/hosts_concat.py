@@ -13,14 +13,23 @@ from urllib.request import Request, urlopen
 
 
 def main():
-    # store unique hosts
-    hosts = []
-    sources = []
+    # store data
+    hosts, sources, ignore_list = [], [], []
 
+    # command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('source', type=str, help='file containing list of sources to parse')
     parser.add_argument('-o', '--output', type=str, nargs='?', default="hosts", help='write output hosts to file')
+    parser.add_argument('-i', '--ignore', type=str, nargs='?', default="ignore.txt",
+                        help='file containing list of hosts to ignore')
     args = parser.parse_args()
+
+    # read ignore file
+    stdout.write("Reading " + args.ignore + "...\n")
+    with open(args.ignore, 'r') as f:
+        for source in f:
+            stdout.write("  Ignoring " + source + "...\n")
+            ignore_list.append(source)
 
     # read sources
     stdout.write("Reading " + args.source + "...\n")
@@ -28,7 +37,7 @@ def main():
     with open(args.source, 'r') as f:
         for source in f:
             if len(source) >= 1 and source[:1] != '#':
-                get_hosts(source, hosts)
+                get_hosts(source, hosts, ignore_list)
                 sources.append(source)
 
     # sort hosts
@@ -75,15 +84,16 @@ def get_hosts_key(host):
     return host
 
 
-def get_hosts(source, hosts):
+def get_hosts(source, hosts, ignore_list):
     """
     Get hosts from source
     :param source: url
     :param hosts: list to store hosts
+    :param ignore_list: list of hosts to ignore
     """
     data = parse_source(source.rstrip()).splitlines()
     for line in data:
-        if line and line[:1] != '#' and line not in hosts:
+        if line and line[:1] != '#' and line not in hosts and not ignored_host(line, ignore_list):
             line = line.replace('\t', ' ')
             hosts.append(line)
 
@@ -108,6 +118,19 @@ def parse_source(url) -> str:
     finally:
         stdout.write(" ...OK!\n")
 
+
+def ignored_host(source, ignore_list) -> bool:
+    """
+    Determine if source is to be ignored
+    :param source: url of source
+    :param ignore_list: list of hosts to ignore
+    :return: True to ignore host, false otherwise
+    """
+
+    for ignore in ignore_list:
+        if ignore in source:
+            return True
+    return False
 
 if __name__ == '__main__':
     main()
