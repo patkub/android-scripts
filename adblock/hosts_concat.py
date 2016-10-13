@@ -126,7 +126,6 @@ def ignored_host(source, ignore_list) -> bool:
     :param ignore_list: list of hosts to ignore
     :return: True to ignore host, false otherwise
     """
-
     for ignore in ignore_list:
         if ignore in source:
             return True
