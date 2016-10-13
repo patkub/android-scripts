@@ -21,3 +21,8 @@ Parse list of sources from sources.txt and write to "myhosts.txt" file
 ```
 python hosts_concat.py source.txt -o myhosts.txt
 ```
+
+Parse list of sources from sources.txt, ignore ones listed in ignore.txt, and write to "hosts" file
+```
+python hosts_concat.py source.txt -i ignore.txt
+```
