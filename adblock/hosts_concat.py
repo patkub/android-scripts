@@ -5,11 +5,12 @@ Concatenate multiple host files.
 author: Patrick Kubiak
 """
 
-from sys import stdout
-import datetime
-import argparse
 import urllib
 from urllib.request import Request, urlopen
+from sys import stdout
+from pathlib import Path
+from datetime import datetime
+from argparse import ArgumentParser
 
 
 def main():
@@ -17,7 +18,7 @@ def main():
     hosts, sources, ignore_list = [], [], []
 
     # command-line arguments
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
     parser.add_argument('source', type=str, help='file containing list of sources to parse')
     parser.add_argument('-o', '--output', type=str, nargs='?', default="hosts", help='write output hosts to file')
     parser.add_argument('-i', '--ignore', type=str, nargs='?', default="ignore.txt",
@@ -26,10 +27,14 @@ def main():
 
     # read ignore file
     stdout.write("Reading " + args.ignore + "...\n")
-    with open(args.ignore, 'r') as f:
-        for source in f:
-            stdout.write("  Ignoring " + source + "...\n")
-            ignore_list.append(source)
+    if Path(args.ignore).is_file():
+        with open(args.ignore, 'r') as f:
+            for source in f:
+                if source:
+                    stdout.write("  Ignoring " + source + "...\n")
+                    ignore_list.append(source)
+    else:
+        stdout.write("  No ignore list found.\n")
 
     # read sources
     stdout.write("Reading " + args.source + "...\n")
@@ -52,7 +57,7 @@ def main():
     stdout.write("Writing hosts to: " + args.output + "\n")
     with open(args.output, 'w') as f:
         # header info
-        curr_date = datetime.datetime.now().strftime("%B %d, %Y at %I:%M %p")
+        curr_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
         f.write("# HostsConcat blocked " + format(len(hosts), ',d') + " hosts.\n" +
                 "# Generated on " + curr_date + " using the following sources: \n")
 
@@ -95,6 +100,9 @@ def get_hosts(source, hosts, ignore_list):
     for line in data:
         if line and line[:1] != '#' and line not in hosts and not ignored_host(line, ignore_list):
             line = line.replace('\t', ' ')
+
+            # 0.0.0.0 does not wait for a timeout
+            line = line.replace('127.0.0.1', '0.0.0.0')
             hosts.append(line)
 
 
