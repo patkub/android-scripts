@@ -26,3 +26,8 @@ Parse list of sources from sources.txt, ignore ones listed in ignore.txt, and wr
 ```
 python hosts_concat.py source.txt -i ignore.txt
 ```
+
+Parse list of sources from sources.txt, and list of hosts from "hosts" file
+```
+python hosts_concat.py source.txt -e hosts
+```
