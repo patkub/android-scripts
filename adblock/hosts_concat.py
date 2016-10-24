@@ -43,7 +43,8 @@ def main():
     if Path(args.existing).is_file():
         with open(args.existing, 'r') as f:
             for line in f:
-                if line.strip() and is_valid_host(line, ignore_list):
+                line = line.rstrip().strip()
+                if is_valid_host(line, ignore_list):
                     hosts.add(format_host(line))
         existing_hosts_count = len(hosts)
         stdout.write("  Found " + format(existing_hosts_count, ',d') + " existing hosts.\n")
@@ -55,7 +56,8 @@ def main():
     stdout.write("Parsing:\n")
     with open(args.source, 'r') as f:
         for source in f:
-            if len(source) >= 1 and source[:1] != '#' and source:
+            source = source.rstrip().strip()
+            if source[:1] != '#':
                 if get_hosts(source, hosts, ignore_list):
                     sources.add(source)
 
@@ -72,17 +74,17 @@ def main():
     with open(args.output, 'w') as f:
         # header info
         curr_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
-        f.write("# HostsConcat blocked " + format(len(hosts), ',d') + " hosts.\n" +
-                "# Generated on " + curr_date + " using the following sources: \n")
+        print("# HostsConcat blocked " + format(len(hosts), ',d') + " hosts.\n" +
+              "# Generated on " + curr_date + " using the following sources:", file=f)
 
         # sources info
         for source in sources:
-            f.write("# " + source)
-        f.write("\n\n")
+            print("# " + source, file=f)
+        print("", file=f)
 
         # write hosts
         for line in hosts:
-            f.write(line + '\n')
+            print(line, file=f)
 
     # report output
     report_hosts = " host" if len(hosts) - existing_hosts_count == 1 else " hosts"
@@ -155,6 +157,7 @@ def parse_source(url) -> str:
         stdout.write(" ...Connection Failed!\n")
     else:
         stdout.write(" ...OK!\n")
+
     return output
 
 
@@ -181,6 +184,7 @@ def is_valid_host(host, ignore_list) -> bool:
     :param ignore_list: list of ignored hosts
     :return: True if host is valid, False otherwise.
     """
+
     return host and host[:1] != '#' and not ignored_host(host, ignore_list)
 
 
