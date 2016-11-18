@@ -80,7 +80,7 @@ def main():
         # sources info
         for source in sources:
             print("# " + source, file=f)
-        print("", file=f)
+        print("\n127.0.0.1 localhost\n" + "::1 ip6-localhost", file=f)
 
         # write hosts
         for line in hosts:
