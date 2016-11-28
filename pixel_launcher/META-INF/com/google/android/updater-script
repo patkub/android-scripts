@@ -1,0 +1,14 @@
+ui_print("********************");
+ui_print("** Pixel Launcher **");
+ui_print("********************");
+ui_print("Version: 7.1.1-3359438");
+ui_print("Installing files...");
+run_program("/sbin/busybox", "mount", "/system");
+show_progress(1, 15);
+package_extract_dir("system", "/system");
+show_progress(1, 15);
+ui_print("Cleaning up and setting metadata...");
+set_metadata_recursive("/system/app", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata_recursive("/system/priv-app", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+run_program("/sbin/busybox", "umount", "/system");
+ui_print("Installation complete!");
