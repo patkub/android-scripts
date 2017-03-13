@@ -1,6 +1,6 @@
 #!/bin/sh
 echo Concatenating hosts...
-python hosts_concat.py sources.txt
+python3 hosts_concat.py sources.txt
 adb root
 echo Pulling old hosts files...
 adb pull /system/etc/hosts old_hosts
