@@ -1,0 +1,11 @@
+ui_print("*************************");
+ui_print("** Pure Nexus Settings **");
+ui_print("*************************");
+ui_print("Applying custom Pure Nexus settings...");
+package_extract_dir("install", "/tmp/install");
+set_metadata_recursive("/tmp/install", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755, "capabilities", 0x0);
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system", "");
+run_program("/tmp/install/settings.sh");
+show_progress(1.0, 1);
+unmount("/system");
+ui_print("Custom settings applied!");
