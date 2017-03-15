@@ -56,7 +56,7 @@ settings put system status_bar_brightness_control 1
 settings put system status_bar_show_carrier 0
 settings put system statusbar_clock_am_pm_style 2
 settings put system statusbar_clock_date_display 2
-settings put system statusbar_clock_date_format MMM dd
+settings put system statusbar_clock_date_format "MMM dd"
 
 # Bluetooth battery status
 settings put system bluetooth_show_battery 0
