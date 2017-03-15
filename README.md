@@ -13,3 +13,7 @@ TWRP flashable zip to enable freeform windows.
 Pixel Launcher
 ==============
 Pixel Launcher is the home screen experience for the Pixel and Pixel XL phones by Google.
+
+Pure Nexus Custom
+=================
+TWRP flashable zip for custom Pure Nexus settings.
