@@ -227,7 +227,7 @@ settings put secure sysui_volume_down_silent 1
 settings put secure sysui_volume_up_silent 1
 
 # Do not disturb switch
-
+settings put secure sysui_show_full_zen 1
 
 # Volume steps: Alarm
 settings put system volume_steps_alarm 7
