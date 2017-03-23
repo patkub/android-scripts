@@ -1,0 +1,20 @@
+fontresload("0", "ttf/Roboto-Regular.ttf", "12");
+fontresload("1", "ttf/Roboto-Regular.ttf", "18");
+
+checkbox("App List","Choose the mods to install","@personalize","app_choices.prop",
+"Mods", "", 2,
+"Adaway 60", "", 0,
+"Pixel Launcher", "", 0,
+"Freeform Windows", "", 0);
+
+setvar("installer_title","You are about to install the following apps:");
+appendvar("installer_title","\n\n");
+appendvar("installer_title",iif(prop("app_choices.prop","item.1.1")=="1","Adaway 60",""));
+appendvar("installer_title",iif(prop("app_choices.prop","item.1.2")=="1","\nPixel Launcher 7.1.1-3368800",""));
+appendvar("installer_title",iif(prop("app_choices.prop","item.1.3")=="1","\nEnable Freeform Windows",""));
+appendvar("installer_title",iif(prop("app_choices.prop","item.1.3")=="0","\nDisable Freeform Windows",""));
+
+writetmpfile("app_choices.prop",readtmpfile("app_choices.prop"));
+if confirm("Installing",getvar("installer_title") + "\n\nStart installation?", "@confirm")=="no" then back(1);
+endif;
+install("Installing", "Your selected apps are being installed. Please Wait...", "@install");

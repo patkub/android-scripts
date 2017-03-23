@@ -1,0 +1,47 @@
+ui_print("@Starting the install process");
+
+ui_print("Setting up required tools...");
+package_extract_dir("utils", "/tmp");
+set_perm(0, 0, 0755, "/tmp/mount");
+
+ui_print("Mounting...");
+ui_print(" ");
+run_program("/tmp/mount", "/data");
+run_program("/tmp/mount", "/system");
+ui_print("@Installing Apps");
+
+# Adaway
+if (file_getprop("/tmp/aroma/app_choices.prop", "item.1.1")=="1") then
+    ui_print("Installing Adaway 60...");
+    package_extract_dir("data/org.adaway", "/data/app");
+endif;
+set_progress(0.25);
+
+# Pixel Launcher
+if (file_getprop("/tmp/aroma/app_choices.prop", "item.1.2")=="1") then
+    ui_print("Installing Pixel Launcher 7.1.1-3368800...");
+    package_extract_dir("data/com.google.android.apps.nexuslauncher", "/system");
+endif;
+set_progress(0.50);
+
+# Freeform Windows
+if (file_getprop("/tmp/aroma/app_choices.prop", "item.1.3")=="1") then
+    ui_print("Enabling Freeform Windows...");
+    package_extract_file("data/freeform.xml", "/system/etc/permissions/freeform.xml");
+else
+    ui_print("Disabling Freeform Windows...");
+    run_program("rm", "/system/etc/permissions/freeform.xml");
+endif;
+set_progress(0.75);
+
+# permissions
+set_perm_recursive(1000, 1000, 0771, 0644, "/data/app");
+set_perm_recursive(1000, 1000, 0775, 0644, "/system/app");
+
+# unmount
+unmount("/data");
+unmount("/system");
+
+# done
+ui_print("@Finished Install");
+set_progress(1);

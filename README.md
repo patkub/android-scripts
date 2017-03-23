@@ -2,6 +2,11 @@ AdBlock
 =======
 System hosts AdBlock file generator.
 
+Antuple Apps
+============
+AROMA Installer with custom mods (Adaway, Pixel Launcher, and Freeform Windows).
+Goal: Provide an easy setup after a clean flash.
+
 Authenticator
 ================
 Backup / Restore Google Authenticator.
