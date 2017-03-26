@@ -7,6 +7,10 @@ Antuple Apps
 AROMA Installer with custom mods (Adaway, Pixel Launcher, and Freeform Windows).  
 Goal: Provide an easy setup after a clean flash.
 
+Apps Backup
+===========
+Backup contacts/call logs and messanger.
+
 Authenticator
 ================
 Backup / Restore Google Authenticator.

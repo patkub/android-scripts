@@ -2,6 +2,7 @@
 adblock/hosts
 adblock/old_hosts
 authenticator/databases
+antuple_apps_backup/data
 
 # Windows image file caches
 Thumbs.db
