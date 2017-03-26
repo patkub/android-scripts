@@ -9,7 +9,7 @@ Goal: Provide an easy setup after a clean flash.
 
 Apps Backup
 ===========
-Backup contacts/call logs and messanger.
+Backup / Restore Google Authenticator, Call Log, and Telephony/Messanger.
 
 Authenticator
 ================
